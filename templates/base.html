@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://v3.bootcss.com/examples/dashboard/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/">
+
+    <title>家+1运维平台</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+    {% block css %}
+    {% endblock %}
+
+
+
+  </head>
+
+  <body>
+    {% csrf_token %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">阿里云CDN缓存刷新平台</a>
+        </div>
+        <div id="navbar-menu" class="navbar-collapse collapse">
+
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if request.user.is_authenticated %}
+              <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user }} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Personal settings</a></li>
+                <li><a href="#">Logout</a></li>
+              </ul>
+             {%  else %}
+                <li><a href="#">Login</a></li>
+             {% endif %}
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidbar-menu" class="col-sm-3 col-md-2 sidebar">
+          {% block sidebar %}
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/">CDN缓存刷新 <span class="sr-only">(current)</span></a></li>
+          </ul>
+          {% endblock %}
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% block content-panel %}
+          <h1 class="page-header">Dashboard</h1>
+
+         {% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    {% block js %}
+    {% endblock %}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $("#navbar-menu a[href='{{ request.path }}']").parent().addClass("active");
+            $("#sidbar-menu a[href='{{ request.path }}']").parent().addClass("active");
+            $("#sidbar-menu a[href='{{ request.path }}']").parent().siblings().removeClass("active");
+        });//end doc ready
+
+
+    </script>
+</body></html>

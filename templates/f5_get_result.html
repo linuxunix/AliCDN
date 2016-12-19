@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+{% endblock %}
+
+{% block content-panel %}
+
+<h3 class="page-header">CDN域名列表</h3>
+<h3 style="color: #1e8582">加速域名个数：{{ result.TotalCount }}</h3>
+  {% for domain in result.Domains %}
+        <li  style="list-style-type:none" ><span class="text-muted" style="color: #3089c7"><h4>{{ domain }}</h4></span></li>
+  {% endfor %}
+
+
+
+<hr>
+
+<div class="row placeholders">
+    <div class="col-md-4">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" ><a href="{% url 'f5_cdn_file' %}">URL刷新</a></li>
+          <li role="presentation"><a href="{% url 'f5_cdn_directory' %}">目录刷新</a></li>
+          <li role="presentation" class="active"><a href="#">查询操作记录</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+          <div class="alert alert-info" role="alert" align="center" id="success_info" style="display:none"></div>
+         <div class="alert alert-info" role="alert" align="center" id="success_info" style="display:none"></div>
+         <div class="alert alert-info" role="alert" align="center" id="error_info" style="display:none"></div>
+                 <div class="col-md-9">
+                   <h4 style="color: #28464d">最近刷新15条记录：(操作时间和本地时区相差8小时)</h4>
+                    <hr>
+                     <table class="table table-hover"  >
+                        <thead>
+                            <th class="col-sm-7">操作内容</th>
+                            <th class="col-sm-2">操作时间</th>
+                            <th class="col-sm-1">状态</th>
+                            <th class="col-sm-1">进度</th>
+                        </thead>
+                     <tbody>
+                            {% for i in history_result %}
+                                  <tr>
+                                      <td class="col-sm-7">{{ i.ObjectPath }}</td>
+                                      <td class="col-sm-2">{{ i.CreationTime }}</td>
+                                      <td class="col-sm-1">{{ i.Status }}</td>
+                                      <td class="col-sm-1">{{ i.Process }}</td>
+                                  </tr>
+                            {% endfor %}
+                     </tbody>
+                     </table>
+                 </div>
+          </div>
+          </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    function relaod(){
+        window.cleanData(GetTaskResultInterval);
+    }
+    function getDate() {
+        var file_path = $("#file_path").val();
+        $.ajax({
+            url: "{% url 'get_file_result' %}",
+            type: "POST",
+            dataType: "json",
+            data: {"file_path": file_path},
+            success: function (d) {
+                $('#success_info').show();
+                $('#success_info').html(d);
+                function reload(){
+                     window.location.reload();
+                    }
+//                    延迟3秒执行reload刷新函数
+                setTimeout(reload, 6000);
+                 },
+            error:function (e) {
+                $('#error_info').show();
+                $('#error_info').html(e.responseText);
+            }
+        });
+    }
+</script>
+{% endblock %}
