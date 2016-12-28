@@ -34,3 +34,14 @@ def f5_get_result(request):
     history_result = json.loads(Ali_Api().make_request({'Action':'DescribeRefreshTasks','ObjectPath':'','PageNumber':'1','PageSize':'15'}))
     history_result = history_result['Tasks']['CDNTask']
     return  render(request, 'f5_get_result.html', locals())
+
+def DescribeDomainFlowData(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainFlowData'}))
+    return HttpResponse(json.dumps(result))
+
+def DescribeDomainsUsageByDay(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainsUsageByDay'}))
+    return HttpResponse(json.dumps(result))
+
+def UsageByDay(request):
+    return render(request, 'detailed/UsageByDay.html', locals())

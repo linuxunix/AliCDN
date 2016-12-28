@@ -33,7 +33,7 @@ class Ali_Api(object):
         # Url编码
     def percent_encode(self,str):
 
-        res = urllib.quote(str.decode(sys.stdin.encoding).encode('utf8'), '')
+        res = urllib.quote(str.decode('UTF-8').encode('utf8'), '')
         res = res.replace('+', '%20')
         res = res.replace('*', '%2A')
         res = res.replace('%7E', '~')
@@ -103,9 +103,9 @@ class Ali_Api(object):
 # print  Ali_Api().domains_info()
 
 #刷新缓存
-# print Ali_Api().refresh_cashes(type='File',path='xxx.com/xx.png')
-#print Ali_Api().refresh_cashes(type='Directory',path='xx.com/xx/')
-
+# print Ali_Api().refresh_cashes(type='File',path='jia1-res.jiajia1.com/kinhom/9AD65A4F3C7C3E6C.png')
+print Ali_Api().make_request({'Action':'DescribeDomainsUsageByDay'})
+#print Ali_Api().make_request({'Action':'DescribeDomainBpsData','TimeMerge':'20'})
 #查询刷新操作记录
 # print Ali_Api().make_request({'Action':'DescribeRefreshTasks','ObjectPath':'','PageNumber':'1','PageSize':'10'})
 

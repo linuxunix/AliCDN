@@ -25,5 +25,9 @@ urlpatterns = [
     url(r'^f5_cdn_directory/',views.f5_cdn_directory,name='f5_cdn_directory'),
     url(r'^get_directory_result/', views.get_directory_result, name='get_directory_result'),
     url(r'^f5_get_result/', views.f5_get_result, name='f5_get_result'),
-    # url(r'^$',TemplateView.as_view(template_name="f5_cdn_file.html"))
+    url(r'^DescribeDomainFlowData/', views.DescribeDomainFlowData, name='DescribeDomainFlowData'),
+    url(r'^detailed/DescribeDomainsUsageByDay/', views.DescribeDomainsUsageByDay, name='DescribeDomainsUsageByDay'),
+    url(r'^detailed/UsageByDay/', views.UsageByDay, name='UsageByDay'),
+    url(r'^detailed/UsageByDay', TemplateView.as_view(template_name="detailed/UsageByDay.html"), name='UsageByDay'),
+    url(r'^demo/',TemplateView.as_view(template_name="demo.html"))
 ]
