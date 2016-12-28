@@ -101,7 +101,6 @@ class Ali_Api(object):
 
 #域名基本信息
 # print  Ali_Api().domains_info()
-
 #刷新缓存
 # print Ali_Api().refresh_cashes(type='File',path='xxx)
 #print Ali_Api().make_request({'Action':'DescribeDomainsUsageByDay'})
