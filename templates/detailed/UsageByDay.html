@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+{% endblock %}
+{% block sidebar %}
+<ul class="nav nav-sidebar">
+<li ><a href="/">CDN缓存刷新 <span class="sr-only">(current)</span></a></li>
+<li class="active"><a href="{% url 'UsageByDay' %}">CDN资源监控 <span class="sr-only"></span></a></li>
+</ul>
+{% endblock %}
+{% block content-panel %}
+
+<h3 class="page-header">CDN资源监控</h3>
+
+<div class="row placeholders">
+    <div class="col-md-4">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#">流量统计</a></li>
+          <li role="presentation"><a href="#">xxx</a></li>
+          <li role="presentation"><a href="#">xxx</a></li>
+        </ul>
+    </div>
+</div>
+<div id="DescribeDomainsUsageByDay" style="width:80%; height:400px;"></div><hr>
+
+       <table class="table table-hover"  >
+                        <thead>
+                            <th class="col-sm-1">日期</th>
+                            <th class="col-sm-1">流量值</th>
+                            <th class="col-sm-1">带宽峰值</th>
+                            <th class="col-sm-1">峰值时间点</th>
+                            <th class="col-sm-1">回源带宽峰值</th>
+                            <th class="col-sm-1">回源峰值时间点</th>
+                            <th class="col-sm-1">访问次数</th>
+                        </thead>
+                     <tbody id="DescribeDomainsUsageByDay_tbody">
+                     </tbody>
+                     </table>
+
+{% endblock %}
+{% block js %}
+<script>
+$(document).ready(function(){
+getDate();
+});
+ function getDate() {
+        $.ajax({
+            url: "{% url 'DescribeDomainsUsageByDay' %}",
+            type: "get",
+            dataType: "json",
+            success: function (d) {
+                mchart(d);
+            },
+            error:function (e) {
+            }
+        });
+    }
+
+ var mchart=function (data) {
+
+     var cate_arr = [], value_arr = [];
+     for (var i = 0; i < data.UsageByDays.UsageByDay.length; i++) {
+         cate_arr.push(data.UsageByDays.UsageByDay[i].TimeStamp);
+         value_arr.push(parseInt(data.UsageByDays.UsageByDay[i].TotalTraffic/1024/1024));
+
+
+         Highcharts.chart('DescribeDomainsUsageByDay', {
+             chart: {
+                 type: 'column'
+             },
+             title: {
+                 text: '最近7天访问情况'
+             },
+             xAxis: {
+                 categories: cate_arr
+             },
+             yAxis: {
+                 title: {
+                     text: '总流量(M)'
+                 }
+             },
+             series: [{
+                 name: '流量数据',
+                 data: value_arr
+             }]
+         })
+          $("#DescribeDomainsUsageByDay_tbody").html(" ");
+           $.each(data.UsageByDays.UsageByDay,function(index,item){
+          var row_html = "<tr>"+
+                        "<td class="+"col-sm-1"+">" +item.TimeStamp + "</td>"+
+                         "<td class="+"col-sm-1"+">" +(item.TotalTraffic/1024/1024/1024).toFixed(2)+ "G"+"</td>"+
+                          "<td class="+"col-sm-1"+">" +(item.MaxBps/1000/1000).toFixed(2) + "M"+ "</td>"+
+                          "<td class="+"col-sm-1"+">" +item.MaxBpsTime + "</td>"+
+                          "<td class="+"col-sm-1"+">" +(item.MaxSrcBps/1000/1000).toFixed(2) + "M"+ "</td>"+
+                          "<td class="+"col-sm-1"+">" +item.MaxSrcBpsTime + "</td>"+
+                          "<td class="+"col-sm-1"+">" +item.TotalAccess + "</td>"+
+                         "</tr>"
+                            $("#DescribeDomainsUsageByDay_tbody").append(row_html);
+     });
+     }
+ }
+
+  </script>
+{% endblock %}
