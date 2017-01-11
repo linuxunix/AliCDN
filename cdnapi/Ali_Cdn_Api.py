@@ -95,15 +95,16 @@ class Ali_Api(object):
             result = self.make_request(dict(user_params))
             return result
         except Exception, e:
-            # return traceback.format_exc()
             return '请检查链接是否合法!'
 
 
 #域名基本信息
 # print  Ali_Api().domains_info()
+
 #刷新缓存
-# print Ali_Api().refresh_cashes(type='File',path='xxx)
-#print Ali_Api().make_request({'Action':'DescribeDomainsUsageByDay'})
+# print Ali_Api().refresh_cashes(type='File',path='xxx.png')
+#print json.loads(Ali_Api().make_request({'Action':'DescribeDomainBpsData'}))
+
 #print Ali_Api().make_request({'Action':'DescribeDomainBpsData','TimeMerge':'20'})
 #查询刷新操作记录
 # print Ali_Api().make_request({'Action':'DescribeRefreshTasks','ObjectPath':'','PageNumber':'1','PageSize':'10'})

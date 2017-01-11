@@ -46,15 +46,15 @@
                             <th class="col-sm-1">状态</th>
                             <th class="col-sm-1">进度</th>
                         </thead>
-                     <tbody>
-                            {% for i in history_result %}
-                                  <tr>
-                                      <td class="col-sm-7">{{ i.ObjectPath }}</td>
-                                      <td class="col-sm-2">{{ i.CreationTime }}</td>
-                                      <td class="col-sm-1">{{ i.Status }}</td>
-                                      <td class="col-sm-1">{{ i.Process }}</td>
-                                  </tr>
-                            {% endfor %}
+                     <tbody id="f5_get_result">
+{#                            {% for i in history_result %}#}
+{#                                  <tr id="f5_get_result">#}
+{#                                      <td class="col-sm-7">{{ i.ObjectPath }}</td>#}
+{#                                      <td class="col-sm-2" >{{ i.CreationTime }}</td>#}
+{#                                      <td class="col-sm-1">{{ i.Status }}</td>#}
+{#                                      <td class="col-sm-1">{{ i.Process }}</td>#}
+{#                                  </tr>#}
+{#                            {% endfor %}#}
                      </tbody>
                      </table>
                  </div>
@@ -65,31 +65,49 @@
 {% endblock %}
 
 {% block js %}
-<script>
-    function relaod(){
-        window.cleanData(GetTaskResultInterval);
-    }
-    function getDate() {
-        var file_path = $("#file_path").val();
+   <script>
+$(document).ready(function(){
+getDate();
+});
+ function getDate() {
         $.ajax({
-            url: "{% url 'get_file_result' %}",
-            type: "POST",
+            url: "{% url 'f5_get_result' %}",
+            type: "post",
             dataType: "json",
-            data: {"file_path": file_path},
             success: function (d) {
-                $('#success_info').show();
-                $('#success_info').html(d);
-                function reload(){
-                     window.location.reload();
-                    }
-//                    延迟3秒执行reload刷新函数
-                setTimeout(reload, 6000);
-                 },
+                mchart(d);
+            },
             error:function (e) {
-                $('#error_info').show();
-                $('#error_info').html(e.responseText);
             }
         });
     }
-</script>
+ var mchart=function (data) {
+     var Status_arr = [], Process_arr = [],ObjectPath_arr=[],CreationTime_arr=[];
+     for (var i = 0; i < data.Tasks.CDNTask.length; i++) {
+         Status_arr.push(data.Tasks.CDNTask[i].Status);
+         Process_arr.push(data.Tasks.CDNTask[i].Process);
+         ObjectPath_arr.push(data.Tasks.CDNTask[i].ObjectPath);
+         CreationTime_arr.push(data.Tasks.CDNTask[i].CreationTime);
+     };
+          $("#f5_get_result").html(" ");
+           $.each(data.Tasks.CDNTask,function(index,item){
+               var time_data = new Date(item.CreationTime);
+               local_time=time_data.getFullYear() + '-'+time_data.getMonth()+1+'-'+time_data.getDate()+' '+time_data.getHours()+':'+time_data.getMinutes()+':'+time_data.getSeconds();
+               console.log(local_time);
+               var row_html = "<tr>"+
+                     "<td class="+"col-sm-7"+">" +item.ObjectPath + "</td>"+
+                      "<td class="+"col-sm-2"+">" +local_time + "</td>"+
+                     "<td class="+"col-sm-1"+">" +item.Status + "</td>"+
+                     "<td class="+"col-sm-1"+">" +item.Process + "</td>"+
+                     "</tr>";
+               $("#f5_get_result").append(row_html);
+ });
+ };
+  </script>
+
+
+{#<script type="text/javascript">#}
+{#    var d = new Date('2015-12-10T20:06:00Z');#}
+{#    console.log(d);#}
+{#</script>#}
 {% endblock %}

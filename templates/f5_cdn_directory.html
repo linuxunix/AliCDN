@@ -37,11 +37,13 @@
          <div class="alert alert-info" role="alert" align="center" id="success_info" style="display:none"></div>
          <div class="alert alert-info" role="alert" align="center" id="error_info" style="display:none"></div>
                  <div class="col-md-6">
+                     <div class="alert alert-warning" role="alert">注意：每天最多可以刷新(含预热)2000个文件(URL)和100个目录。刷新任务生效时间大约为5分钟。</div>
                    <h4 style="color: #080504">输入刷新缓存的目录路径：</h4>
                     <hr>
 {#                     <form enctype="multipart/form-data" action="{% url 'get_file_resurl' %}" method="POST">{% csrf_token %}#}
                      <textarea id="file_path" type="" class="form-control" name="cmd_args" placeholder="如：http://jia1-res.jiajia1.com/image/，刷新全站请输入http://jia1-res.jiajia1.com/，请用/结尾，建议尽量不要刷新全站。"></textarea><br>
                      <input class="btn btn-primary " type="button" value="执行" onclick="getDate()">
+                      <hr>        <p id="DirRemain">剩余目录刷新数量{{ DirRemain }} </p>
                      </form>
                  </div>
           </div>
