@@ -25,8 +25,8 @@ def get_file_result(request):
 
 def f5_cdn_directory(request):
     result = Ali_Api().domains_info()
-    DescribeRefreshQuota = json.loads(Ali_Api().make_request({'Action':'DescribeRefreshQuota'}))
-    DirRemain = DescribeRefreshQuota["DirRemain"]
+    DescribeRefresh = json.loads(Ali_Api().make_request({'Action':'DescribeRefreshQuota'}))
+    DirRemain = DescribeRefresh["DirRemain"]
     return render(request, 'f5_cdn_directory.html', locals())
 
 @csrf_exempt
