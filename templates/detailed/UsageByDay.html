@@ -1,28 +1,27 @@
 {% extends 'base.html' %}
-
-
 {% block css %}
-
-
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
 {% endblock %}
+
 {% block sidebar %}
 <ul class="nav nav-sidebar">
 <li ><a href="/">CDN缓存刷新 <span class="sr-only">(current)</span></a></li>
 <li class="active"><a href="{% url 'UsageByDay' %}">CDN资源监控 <span class="sr-only"></span></a></li>
 </ul>
 {% endblock %}
-{% block content-panel %}
 
+{% block content-panel %}
 <h3 class="page-header">CDN资源监控</h3>
 
 <div class="row placeholders">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#">流量统计</a></li>
-          <li role="presentation"><a href="#">xxx</a></li>
-          <li role="presentation"><a href="#">xxx</a></li>
+          <li role="presentation" class="active"><a href="{%  url 'network_data' %}" >一周流量统计</a></li>
+          <li role="presentation"><a href="{%  url 'network_data' %}" >一日带宽统计</a></li>
+          <li role="presentation"><a href="{% url 'ReqHitRateData' %}">缓存命中率</a></li>
+          <li role="presentation"><a href="{% url 'DomainQpsData' %}">查询QPS</a></li>
+          <li role="presentation"><a href="{% url 'hot-analyse' %}">热点分析</a></li>
         </ul>
     </div>
 </div>

@@ -45,14 +45,28 @@ def f5_get_result(request):
     # history_result = history_result['Tasks']['CDNTask']
     return  render(request, 'f5_get_result.html', locals())
 
+def UsageByDay(request):
+    return render(request, 'detailed/UsageByDay.html', locals())
 
-def DescribeDomainFlowData(request):
-    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainFlowData'}))
+def DescribeDomainBpsData(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainBpsData'}))
     return HttpResponse(json.dumps(result))
 
 def DescribeDomainsUsageByDay(request):
     result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainsUsageByDay'}))
     return HttpResponse(json.dumps(result))
 
-def UsageByDay(request):
-    return render(request, 'detailed/UsageByDay.html', locals())
+def DescribeDomainSrcBpsData(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainSrcBpsData'}))
+    return HttpResponse(json.dumps(result))
+
+def DescribeDomainReqHitRateData(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainReqHitRateData'}))
+    return HttpResponse(json.dumps(result))
+
+def DescribeDomainQpsData(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeDomainQpsData'}))
+    return HttpResponse(json.dumps(result))
+def DescribeTopDomainsByFlow(request):
+    result = json.loads(Ali_Api().make_request({'Action': 'DescribeTopDomainsByFlow'}))
+    return HttpResponse(json.dumps(result))

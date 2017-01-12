@@ -103,7 +103,7 @@ class Ali_Api(object):
 
 #刷新缓存
 # print Ali_Api().refresh_cashes(type='File',path='jia1-res.jiajia1.com/kinhom/9AD65A4F3C7C3E6C.png')
-print json.loads(Ali_Api().make_request({'Action':'DescribeDomainBpsData'}))
+print json.loads(Ali_Api().make_request({'Action':'DescribeTopDomainsByFlow'}))
 
 #print Ali_Api().make_request({'Action':'DescribeDomainBpsData','TimeMerge':'20'})
 #查询刷新操作记录
